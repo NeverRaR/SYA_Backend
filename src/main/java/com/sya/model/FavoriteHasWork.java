@@ -24,6 +24,21 @@ public class FavoriteHasWork implements Serializable {
     @Column(name="add_time")
     private Date addTime;
 
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) return true;
+        if(!(obj instanceof FavoriteHasWork)) return false;
+        FavoriteHasWork o=(FavoriteHasWork) obj;
+        return work.getId().equals(o.getWork().getId())
+                && favorite.getId().equals(o.getFavorite().getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     public Work getWork() {
         return work;
     }

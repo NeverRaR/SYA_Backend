@@ -20,6 +20,21 @@ public class AnnouncementSend implements Serializable {
     @JoinColumn(name="receiver_id")
     private User receiver;
 
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) return true;
+        if(!(obj instanceof AnnouncementSend)) return false;
+        AnnouncementSend o=(AnnouncementSend) obj;
+        return announcement.getId().equals(o.getAnnouncement().getId())
+                && receiver.getId().equals(o.getReceiver().getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     private Integer status;
 
     public Announcement getAnnouncement() {
@@ -37,7 +52,6 @@ public class AnnouncementSend implements Serializable {
     public void setReceiver(User receiver) {
         this.receiver = receiver;
     }
-
 
     public Integer getStatus() {
         return status;

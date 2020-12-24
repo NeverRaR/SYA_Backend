@@ -31,6 +31,20 @@ public class Takes implements Serializable {
 
     private Integer status;
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) return true;
+        if(!(obj instanceof Takes)) return false;
+        Takes o=(Takes) obj;
+        return work.getId().equals(o.getWork().getId())
+                && student.getId().equals(o.getStudent().getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     public Work getWork() {
         return work;
     }
