@@ -6,7 +6,7 @@ import java.io.Serializable;
 @Entity
 public class Takes implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -8473363729158033277L;
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="work_id")

@@ -8,7 +8,7 @@ import java.util.Date;
 @Table(name="favorite_has_work")
 public class FavoriteHasWork implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 8289862958494742903L;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)

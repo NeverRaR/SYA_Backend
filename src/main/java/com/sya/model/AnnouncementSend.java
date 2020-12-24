@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Table(name ="announcement_send")
 public class AnnouncementSend implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -8855857378053143716L;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
