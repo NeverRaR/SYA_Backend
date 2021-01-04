@@ -34,6 +34,8 @@ public class User {
 
     private String password;
 
+    private String salt;
+
     private String sale;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
@@ -254,5 +256,13 @@ public class User {
 
     public void setTeacherApplies(Set<Apply> teacherApplies) {
         this.teacherApplies = teacherApplies;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }
