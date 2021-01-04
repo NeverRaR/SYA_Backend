@@ -51,4 +51,8 @@ public class AuthenticationService {
         return sessionId;
 
     }
+
+    public void invalidateSessionId(String sessionId){
+        template.delete(sessionId);
+    }
 }

@@ -47,6 +47,7 @@ public class AccountController {
     AccountStatus login(@RequestBody LoginRequest body, HttpServletResponse response){
         String sessionId=authenticationService.createSessionId(body.getUsername(),body.getPassword());
         Cookie cookie=new Cookie("sessionId",sessionId);
+        cookie.setMaxAge(3 * 60 * 60);
         response.addCookie(cookie);
         User user=authenticationService.getUser(sessionId);
         return getAccountStatus(user);
@@ -60,6 +61,16 @@ public class AccountController {
         return getAccountStatus(user);
     }
 
+    @PostMapping(path = "/Logout")
+    public @ResponseBody
+    void logout(@CookieValue(value = "sessionId",
+            defaultValue = "noSession") String sessionId,HttpServletResponse response){
+        authenticationService.invalidateSessionId(sessionId);
+        Cookie cookie=new Cookie("sessionId",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
+
     private AccountStatus getAccountStatus(User user) {
         AccountStatus accountStatus=new AccountStatus();
         if(user == null) {
@@ -71,5 +82,7 @@ public class AccountController {
         accountStatus.setUsername(user.getUsername());
         return accountStatus;
     }
+
+
 
 }
