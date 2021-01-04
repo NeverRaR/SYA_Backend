@@ -1,6 +1,6 @@
 package com.sya.view;
 
-public class RegisterView {
+public class AccountStatus {
 
     private Integer id;
 
