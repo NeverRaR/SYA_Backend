@@ -31,9 +31,9 @@ public class WorkService {
         User user=new User();
         user.setId(teacherId);
         work.setTeacher(user);
-        workDAO.save(work);
-        Optional<Work> optionalWork=workDAO.findById(work.getId());
-        return optionalWork.get();
+        work.setLikesNum(0);
+        work.setCollectNum(0);
+        return work;
     }
 
     public Work getWork(Integer workId) {

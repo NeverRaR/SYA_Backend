@@ -115,8 +115,17 @@ public class Work {
         return likesNum;
     }
 
+    public void setLikesNum(Integer likesNum){
+        this.likesNum=likesNum;
+    }
+
     public Integer getCollectNum() {
         return collectNum;
+    }
+
+    public void setCollectNum(Integer collectNum){
+        this.collectNum=collectNum;
+
     }
 
     public String getStartDay() {
@@ -161,7 +170,7 @@ public class Work {
             int i;
             double rate = 1.0;
             for (i = 0; i < startTimes.length; ++i) {
-                totalTime += Double.parseDouble(endTimes[i]) - Double.parseDouble(startTimes[i]) * rate;
+                totalTime += (Double.parseDouble(endTimes[i]) - Double.parseDouble(startTimes[i])) * rate;
                 rate /= 60;
             }
         }
