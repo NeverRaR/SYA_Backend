@@ -24,7 +24,7 @@ public class Announcement {
     @Column(name="send_time")
     private Date sendTime;
 
-    @OneToMany(mappedBy = "announcement",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "announcement",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<AnnouncementSend> announcementSends;
 
     public Integer getId() {
