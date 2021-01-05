@@ -156,6 +156,17 @@ public class WorkController {
         return takesService.resign(student.getId(), body.getWorkId());
     }
 
+    @PostMapping(path = "/Deleteresign")
+    public @ResponseBody
+    Object deleteResign(@RequestBody WorkIdRequest body,@CookieValue(value = "sessionId",
+            defaultValue = "noSession") String sessionId){
+        User student=authenticationService.getUser(sessionId);
+        if(student==null) {
+            return new Message("sessionId is invalid!");
+        }
+        return takesService.deleteResign(student.getId(), body.getWorkId());
+    }
+
     private WorkListView getWorkListView(Integer pageNum, Integer totalPage, List<Work> workList) {
         List<WorkStatus> workStatusList=new LinkedList<WorkStatus>();
         for(Work work:workList){

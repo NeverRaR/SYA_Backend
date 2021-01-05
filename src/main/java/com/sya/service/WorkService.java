@@ -21,6 +21,9 @@ public class WorkService {
     @Autowired
     WorkDAO workDAO;
 
+    @Autowired
+    TakesService takesService;
+
     @Transactional
     public Work addNewWork(CreateWorkRequest body, Integer teacherId) {
         Work work = new Work();
@@ -118,5 +121,4 @@ public class WorkService {
         }
         return 1+(totalWork-1)/pageSize;
     }
-
 }
