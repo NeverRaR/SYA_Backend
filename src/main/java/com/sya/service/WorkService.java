@@ -39,6 +39,7 @@ public class WorkService {
         work.setTeacher(user);
         work.setLikesNum(0);
         work.setCollectNum(0);
+        workDAO.save(work);
         return work;
     }
 

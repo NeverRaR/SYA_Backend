@@ -1,5 +1,8 @@
 package com.sya.model;
 
+import com.sya.model.pk.LikePK;
+import com.sya.model.pk.TakesPK;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -7,14 +10,17 @@ import java.io.Serializable;
 public class Takes implements Serializable {
 
     private static final long serialVersionUID = -8473363729158033277L;
-    @Id
+    @EmbeddedId
+    private TakesPK id = new TakesPK();
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="work_id")
+    @JoinColumn(name = "work_id")
+    @MapsId("workId")
     private Work work;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="student_id")
+    @JoinColumn(name = "student_id")
+    @MapsId("studentId")
     private User student;
 
     @Column(name ="work_time")

@@ -11,7 +11,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class LikePK implements Serializable {
+public class TakesPK implements Serializable {
+
     private Integer studentId;
 
     private Integer workId;
