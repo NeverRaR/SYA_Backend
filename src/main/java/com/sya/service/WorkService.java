@@ -1,14 +1,17 @@
 package com.sya.service;
 
 import com.sya.dao.WorkDAO;
+import com.sya.model.Takes;
 import com.sya.model.User;
 import com.sya.model.Work;
 import com.sya.request.CreateWorkRequest;
+import com.sya.view.WorkListView;
+import com.sya.view.WorkStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class WorkService {
@@ -36,12 +39,34 @@ public class WorkService {
         return work;
     }
 
-    public Work getWork(Integer workId) {
+    public Work getWorkById(Integer workId) {
         Optional<Work> optionalWork=workDAO.findById(workId);
         if(!optionalWork.isPresent()) {
             return null;
         }
         return optionalWork.get();
+    }
+
+    public Integer getOwnWorkByPage(Integer pageNum,Integer pageSize,User student,List<Work> workList) {
+       Set<Takes> takesSet=student.getTakesSet();
+       if(takesSet.isEmpty()) return 0;
+       WorkListView workListView=new WorkListView();
+       workListView.setPageNum(pageNum);
+       workListView.setTotalPage(takesSet.size());
+       int offset=(pageSize-1)*pageNum;
+       int count=0;
+       for(Takes takes: takesSet){
+           count++;
+           if(count<=offset) {
+               continue;
+           }
+           if(count>offset+pageSize){
+               break;
+           }
+           workList.add(takes.getWork());
+       }
+       return 1+takesSet.size()/pageSize;
+
     }
 
 }

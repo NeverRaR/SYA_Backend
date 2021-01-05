@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -71,10 +70,7 @@ public class AccountController {
         if(user == null) {
             return accountStatus;
         }
-        accountStatus.setId(user.getId());
-        accountStatus.setEmail(user.getEmail());
-        accountStatus.setRole(user.getRole());
-        accountStatus.setUsername(user.getUsername());
+        accountStatus.setUser(user);
         return accountStatus;
     }
 

@@ -1,6 +1,7 @@
 package com.sya.view;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sya.model.Work;
 
 public class WorkStatus {
     private Integer id;
@@ -18,6 +19,23 @@ public class WorkStatus {
     private Double totalTime;
     private Integer weekDay;
 
+    public void setWork(Work work){
+        setId(work.getId());
+        setAddress(work.getAddress());
+        setWorkDescription(work.getDescription());
+        setWorkName(work.getName());
+        setCollectNum(work.getCollectNum());
+        setCover(work.getCover());
+        setEndDay(work.getEndDay());
+        setEndTime(work.getEndTime());
+        setLikesNum(work.getLikesNum());
+        setSalary(work.getSalary());
+        setStartDay(work.getStartDay());
+        setStartTime(work.getStartTime());
+        setTotalTime(work.getTotalTime());
+        setWeekDay(work.getWeekDay());
+    }
+    
     @JsonProperty("work_id")
     public Integer getId() {
         return id;

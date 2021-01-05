@@ -3,17 +3,19 @@ package com.sya.controller;
 import com.sya.model.User;
 import com.sya.model.Work;
 import com.sya.request.CreateWorkRequest;
-import com.sya.request.RegisterRequest;
+import com.sya.request.PageRequest;
 import com.sya.request.ViewWorkInfoRequest;
 import com.sya.service.AuthenticationService;
 import com.sya.service.WorkService;
-import com.sya.view.AccountStatus;
 import com.sya.view.Message;
+import com.sya.view.WorkListView;
 import com.sya.view.WorkStatus;
-import org.omg.CORBA.PRIVATE_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/Work")
@@ -41,8 +43,33 @@ public class WorkController {
 
     @GetMapping(path = "/ViewWorkInfo")
     public @ResponseBody
-    Object ViewWorkInfo (@RequestBody ViewWorkInfoRequest body) {
-        return getWorkStatus(workService.getWork(body.getWorkId()));
+    WorkStatus ViewWorkInfo (@RequestBody ViewWorkInfoRequest body) {
+        return getWorkStatus(workService.getWorkById(body.getWorkId()));
+    }
+
+    @PostMapping(path = "/ViewOwnWork")
+    public @ResponseBody
+    Object ViewOwnWork(@RequestBody PageRequest body, @CookieValue(value = "sessionId",
+            defaultValue = "noSession") String sessionId) {
+        User student=authenticationService.getUser(sessionId);
+        if(student==null) {
+            return new Message("sessionId is invalid!");
+        }
+        Integer totalPage=-1;
+        List<Work> workList=new LinkedList<Work>();
+        totalPage=workService.getOwnWorkByPage(body.getPageNum(),body.getPageSize(),student,workList);
+        List<WorkStatus> workStatusList=new LinkedList<WorkStatus>();
+        for(Work work:workList){
+            WorkStatus workStatus=new WorkStatus();
+            workStatus.setWork(work);
+            workStatusList.add(workStatus);
+        }
+        WorkListView workListView=new WorkListView();
+        workListView.setTotalPage(totalPage);
+        workListView.setWorkList(workStatusList);
+        workListView.setPageNum(body.getPageNum());
+        return workListView;
+
     }
 
     private WorkStatus getWorkStatus(Work work){
@@ -50,20 +77,7 @@ public class WorkController {
         if(work ==null){
             return workStatus;
         }
-        workStatus.setId(work.getId());
-        workStatus.setAddress(work.getAddress());
-        workStatus.setWorkDescription(work.getDescription());
-        workStatus.setWorkName(work.getName());
-        workStatus.setCollectNum(work.getCollectNum());
-        workStatus.setCover(work.getCover());
-        workStatus.setEndDay(work.getEndDay());
-        workStatus.setEndTime(work.getEndTime());
-        workStatus.setLikesNum(work.getLikesNum());
-        workStatus.setSalary(work.getSalary());
-        workStatus.setStartDay(work.getStartDay());
-        workStatus.setStartTime(work.getStartTime());
-        workStatus.setTotalTime(work.getTotalTime());
-        workStatus.setWeekDay(work.getWeekDay());
+        workStatus.setWork(work);
         return workStatus;
 
     }

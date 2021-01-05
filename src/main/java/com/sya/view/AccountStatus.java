@@ -12,6 +12,13 @@ public class AccountStatus {
 
     private Integer role;
 
+    public void setUser(User user){
+        setId(user.getId());
+        setEmail(user.getEmail());
+        setRole(user.getRole());
+        setUsername(user.getUsername());
+    }
+
     public Integer getId() {
         return id;
     }
