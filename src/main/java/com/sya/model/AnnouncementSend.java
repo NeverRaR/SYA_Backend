@@ -1,5 +1,7 @@
 package com.sya.model;
 
+import com.sya.model.pk.AnnouncementSendPK;
+
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
@@ -10,16 +12,18 @@ public class AnnouncementSend implements Serializable {
 
     private static final long serialVersionUID = -8855857378053143716L;
 
-    @Id
+    @EmbeddedId
+    private AnnouncementSendPK id = new AnnouncementSendPK();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="announcement_id")
+    @MapsId("announcementId")
     private Announcement announcement;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="receiver_id")
+    @MapsId("userId")
     private User receiver;
-
 
     @Override
     public boolean equals(Object obj) {
