@@ -16,16 +16,7 @@ public class ResumeService {
     @Transactional
     public Resume createResume(ResumeRequest body, User student){
         Resume resume=new Resume();
-        resume.setAcademic(body.getAcademic());
-        resume.setAge(body.getAge());
-        resume.setName(body.getStudentName());
-        resume.setCity(body.getCity());
-        resume.setEducation(body.getEducation());
-        resume.setCommunity(body.getCommunity());
-        resume.setProject(body.getProject());
-        resume.setSkill(body.getSkill());
-        resume.setIntroduction(body.getIntroduction());
-        resume.setStudent(student);
+        makeResume(resume,body,student);
         resumeDAO.save(resume);
         return  resume;
     }
@@ -38,5 +29,29 @@ public class ResumeService {
         }
         resumeDAO.delete(resume);
         return 1;
+    }
+
+    @Transactional
+    public Resume updateResume(ResumeRequest body,User student){
+        Resume resume=student.getStudentResume();
+        if(resume==null) {
+            return null;
+        }
+        makeResume(resume,body,student);
+        resumeDAO.save(resume);
+        return resume;
+    }
+
+    private void makeResume(Resume resume,ResumeRequest body,User student){
+        resume.setAcademic(body.getAcademic());
+        resume.setAge(body.getAge());
+        resume.setName(body.getStudentName());
+        resume.setCity(body.getCity());
+        resume.setEducation(body.getEducation());
+        resume.setCommunity(body.getCommunity());
+        resume.setProject(body.getProject());
+        resume.setSkill(body.getSkill());
+        resume.setIntroduction(body.getIntroduction());
+        resume.setStudent(student);
     }
 }
