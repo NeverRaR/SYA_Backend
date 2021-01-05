@@ -6,6 +6,7 @@ import com.sya.request.CreateWorkRequest;
 import com.sya.request.ResumeRequest;
 import com.sya.service.AuthenticationService;
 import com.sya.service.ResumeService;
+import com.sya.view.ErrorView;
 import com.sya.view.Message;
 import com.sya.view.ResumeView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,19 @@ public class ResumeController {
         }
         Resume resume=resumeService.createResume(body,student);
         return getResumeView(resume);
+    }
+
+    @DeleteMapping(path = "/DeleteResume")
+    public @ResponseBody
+    Object DeleteResume (@CookieValue(value = "sessionId",
+            defaultValue = "noSession") String sessionId){
+        User student=authenticationService.getUser(sessionId);
+        if(!student.getRole().equals(1)){
+            return  new Message("You aren't student!");
+        }
+        Integer status_code=resumeService.deleteResume(student);
+        if(status_code.equals(-1)) return new ErrorView(-1,"You dont have resume!");
+        return  status_code;
     }
 
     private ResumeView getResumeView(Resume resume){

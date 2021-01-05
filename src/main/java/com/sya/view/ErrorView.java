@@ -1,10 +1,10 @@
 package com.sya.view;
 
-public class Error {
+public class ErrorView {
     private Integer errorCode;
     private String message;
 
-    public Error(Integer errorCode,String message){
+    public ErrorView(Integer errorCode, String message){
         this.errorCode=errorCode;
         this.message=message;
     }

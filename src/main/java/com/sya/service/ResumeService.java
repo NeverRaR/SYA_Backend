@@ -29,4 +29,14 @@ public class ResumeService {
         resumeDAO.save(resume);
         return  resume;
     }
+
+    @Transactional
+    public Integer deleteResume(User student){
+        Resume resume=student.getStudentResume();
+        if(resume==null) {
+            return -1;
+        }
+        resumeDAO.delete(resume);
+        return 1;
+    }
 }
