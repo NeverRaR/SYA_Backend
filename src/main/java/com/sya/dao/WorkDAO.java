@@ -14,4 +14,6 @@ public interface WorkDAO extends CrudRepository<Work,Integer> {
 
     @Query(value = "select count(*) from work",nativeQuery = true)
     Integer findNum();
+
+    @Query(value = "select count(*) from takes where ")
 }
