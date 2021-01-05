@@ -1,11 +1,10 @@
 package com.sya.service;
 
 import com.sya.dao.WorkDAO;
-import com.sya.model.Takes;
 import com.sya.model.User;
 import com.sya.model.Work;
 import com.sya.request.CreateWorkRequest;
-import com.sya.view.WorkListView;
+import com.sya.request.UpdateWorkRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,12 +45,43 @@ public class WorkService {
         return work;
     }
 
+
+    public User getWorkOwner(Integer workId){
+        Optional<Work> optionalWork=workDAO.findById(workId);
+        if(!optionalWork.isPresent()) {
+            return null;
+        }
+        return optionalWork.get().getTeacher();
+
+    }
     public Work getWorkById(Integer workId) {
         Optional<Work> optionalWork=workDAO.findById(workId);
         if(!optionalWork.isPresent()) {
             return null;
         }
         return optionalWork.get();
+    }
+
+    @Transactional
+    public Work updateWork(UpdateWorkRequest body){
+
+        Optional<Work> optionalWork=workDAO.findById(body.getWorkId());
+        if(!optionalWork.isPresent()) {
+            return null;
+        }
+        Work work = optionalWork.get();
+        work.setAddress(body.getAddress());
+        work.setCover(body.getCover());
+        work.setDescription(body.getWorkDescription());
+        work.setName(body.getWorkName());
+        work.setEndDay(body.getEndDay());
+        work.setEndTime(body.getEndTime());
+        work.setSalary(body.getSalary());
+        work.setStartDay(body.getStartDay());
+        work.setStartTime(body.getStartTime());
+        work.setWeekDay(body.getWeekDay());
+        workDAO.save(work);
+        return work;
     }
 
     public Integer getOwnWorkByPage(Integer pageNum,Integer pageSize,User student,List<Work> workList) {

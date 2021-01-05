@@ -2,7 +2,6 @@ package com.sya.controller;
 
 import com.sya.model.Resume;
 import com.sya.model.User;
-import com.sya.request.CreateWorkRequest;
 import com.sya.request.ResumeRequest;
 import com.sya.service.AuthenticationService;
 import com.sya.service.ResumeService;

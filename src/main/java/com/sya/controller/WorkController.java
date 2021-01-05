@@ -7,6 +7,7 @@ import com.sya.service.AuthenticationService;
 import com.sya.service.LikeService;
 import com.sya.service.TakesService;
 import com.sya.service.WorkService;
+import com.sya.view.ErrorView;
 import com.sya.view.Message;
 import com.sya.view.WorkListView;
 import com.sya.view.WorkStatus;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.acl.Owner;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -67,6 +69,7 @@ public class WorkController {
         return getWorkListView(body.getPageNum(), totalPage, workList);
 
     }
+
 
     @PostMapping(path = "/ViewHistoryWork")
     public @ResponseBody
@@ -165,6 +168,26 @@ public class WorkController {
             return new Message("sessionId is invalid!");
         }
         return takesService.deleteResign(student.getId(), body.getWorkId());
+    }
+
+    @PostMapping(path = "/ChangeWorkInfo")
+    public @ResponseBody
+    Object ChangeWorkInfo(@RequestBody UpdateWorkRequest body, @CookieValue(value = "sessionId",
+            defaultValue = "noSession") String sessionId){
+        User teacher=authenticationService.getUser(sessionId);
+        if(teacher.getRole().equals(1)) {
+            return  new Message("You are a student!");
+        }
+        User owner=workService.getWorkOwner(body.getWorkId());
+        if(owner ==null){
+            return new ErrorView(-1,"Work isn't exist!");
+        }
+        if(!owner.getId().equals(teacher.getId())){
+            return new Message("You are not the owner!");
+        }
+        Work work=workService.updateWork(body);
+        return getWorkStatus(work);
+
     }
 
     private WorkListView getWorkListView(Integer pageNum, Integer totalPage, List<Work> workList) {
