@@ -7,6 +7,7 @@ import com.sya.request.PageQueryRequest;
 import com.sya.request.PageRequest;
 import com.sya.request.ViewWorkInfoRequest;
 import com.sya.service.AuthenticationService;
+import com.sya.service.LikeService;
 import com.sya.service.WorkService;
 import com.sya.view.Message;
 import com.sya.view.WorkListView;
@@ -26,6 +27,9 @@ public class WorkController {
 
     @Autowired
     WorkService workService;
+
+    @Autowired
+    LikeService likeService;
 
     @PostMapping(path = "/CreateWork")
     public @ResponseBody
@@ -116,6 +120,28 @@ public class WorkController {
         totalPage=workService.findOwnWorkByPage(body.getPageNum(),body.getPageSize(),student,workList, body.getQuery());
         return getWorkListView(body.getPageNum(), totalPage, workList);
 
+    }
+
+    @PostMapping(path = "/ChangeLike")
+    public @ResponseBody
+    Object ChangeLike(@RequestBody Integer body,@CookieValue(value = "sessionId",
+            defaultValue = "noSession") String sessionId) {
+        User student=authenticationService.getUser(sessionId);
+        if(student==null) {
+            return new Message("sessionId is invalid!");
+        }
+        return likeService.changeLike(student.getId(), body);
+    }
+
+    @PostMapping(path = "/GetLike")
+    public @ResponseBody
+    Object GetLike(@RequestBody Integer body,@CookieValue(value = "sessionId",
+            defaultValue = "noSession") String sessionId) {
+        User student=authenticationService.getUser(sessionId);
+        if(student==null) {
+            return new Message("sessionId is invalid!");
+        }
+        return likeService.getLike(student.getId(), body);
     }
 
     private WorkListView getWorkListView(Integer pageNum, Integer totalPage, List<Work> workList) {

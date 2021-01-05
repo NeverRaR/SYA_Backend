@@ -26,7 +26,7 @@ public class Work {
 
     private Integer salary;
 
-    @Formula("(select count(*) from takes a where a.work_id = work_id and a.likes_status=1)")
+    @Formula("(select count(*) from work_like a where a.work_id = work_id)")
     private Integer likesNum;
 
     @Formula("(select count(*) from favorite_has_work a where a.work_id = work_id)")

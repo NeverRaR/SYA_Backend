@@ -2,6 +2,8 @@ package com.sya.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
+
 public class CreateWorkRequest {
     private String workName;
     private String cover;

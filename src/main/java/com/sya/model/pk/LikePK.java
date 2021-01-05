@@ -11,9 +11,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class AnnouncementSendPK implements Serializable {
+public class LikePK implements Serializable {
 
-    private Integer announcementId;
+    private Integer workId;
 
-    private Integer userId;
+    private Integer studentId;
 }
