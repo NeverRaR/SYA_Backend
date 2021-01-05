@@ -1,15 +1,23 @@
 package com.sya.view;
 
+import com.sya.model.User;
+
 public class AccountStatus {
 
     private Integer id;
 
     private String username;
 
-
     private String email;
 
     private Integer role;
+
+    public void setUser(User user){
+        setId(user.getId());
+        setEmail(user.getEmail());
+        setRole(user.getRole());
+        setUsername(user.getUsername());
+    }
 
     public Integer getId() {
         return id;

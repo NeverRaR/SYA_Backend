@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -28,17 +27,9 @@ public class AccountController {
     public @ResponseBody
     AccountStatus addNewUser (@RequestBody RegisterRequest body) {
 
-        AccountStatus accountStatus =new AccountStatus();
-        Integer id=userService.addNewUser(body);
-        if(id == null){
-            return accountStatus;
-        }
+        User user=userService.addNewUser(body);
 
-        accountStatus.setId(id);
-        accountStatus.setEmail(body.getEmail());
-        accountStatus.setUsername(body.getUsername());
-        accountStatus.setRole(body.getRole());
-        return accountStatus;
+        return getAccountStatus(user);
 
     }
 
@@ -50,6 +41,7 @@ public class AccountController {
         cookie.setMaxAge(3 * 60 * 60);
         cookie.setPath("/");
         response.addCookie(cookie);
+
         User user=authenticationService.getUser(sessionId);
         return getAccountStatus(user);
     }
@@ -68,6 +60,7 @@ public class AccountController {
             defaultValue = "noSession") String sessionId,HttpServletResponse response){
         authenticationService.invalidateSessionId(sessionId);
         Cookie cookie=new Cookie("sessionId",null);
+        cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
@@ -77,10 +70,7 @@ public class AccountController {
         if(user == null) {
             return accountStatus;
         }
-        accountStatus.setId(user.getId());
-        accountStatus.setEmail(user.getEmail());
-        accountStatus.setRole(user.getRole());
-        accountStatus.setUsername(user.getUsername());
+        accountStatus.setUser(user);
         return accountStatus;
     }
 

@@ -3,7 +3,6 @@ package com.sya.model;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Set;
 
 @Entity
@@ -115,8 +114,17 @@ public class Work {
         return likesNum;
     }
 
+    public void setLikesNum(Integer likesNum){
+        this.likesNum=likesNum;
+    }
+
     public Integer getCollectNum() {
         return collectNum;
+    }
+
+    public void setCollectNum(Integer collectNum){
+        this.collectNum=collectNum;
+
     }
 
     public String getStartDay() {
@@ -152,24 +160,37 @@ public class Work {
     }
 
     public Double getTotalTime() {
-        double totalTime=0.0;
+        double totalHour =0.0;
+        int totalDay=0;
+        int totalWeek=0;
         try {
             String[] startTimes = startTime.split(":");
             String[] endTimes = endTime.split(":");
-            if (startTimes.length != endTimes.length) return null;
-            if (startTimes.length == 0 || startTimes.length > 3) return null;
+            if (startTimes.length != endTimes.length){
+                return null;
+            }
+            if (startTimes.length == 0 || startTimes.length > 3) {
+                return null;
+            }
             int i;
             double rate = 1.0;
             for (i = 0; i < startTimes.length; ++i) {
-                totalTime += Double.parseDouble(endTimes[i]) - Double.parseDouble(startTimes[i]) * rate;
+                totalHour += (Double.parseDouble(endTimes[i]) - Double.parseDouble(startTimes[i])) * rate;
                 rate /= 60;
             }
+
+            String[] startDays = startDay.split("-");
+            String[] endDays = endDay.split("-");
+            totalDay +=(Integer.parseInt (endDays[0])-Integer.parseInt (startDays[0]))*365;
+            totalDay +=(Integer.parseInt (endDays[1])-Integer.parseInt (startDays[1]))*30;
+            totalDay +=Integer.parseInt (endDays[2])-Integer.parseInt (startDays[2]);
+            totalWeek=1+totalDay/7;
         }
         catch (Exception e){
             System.out.println(e.getMessage());
             return null;
         }
-        return totalTime;
+        return totalWeek*totalHour;
     }
     public Integer getWeekDay() {
         return weekDay;
