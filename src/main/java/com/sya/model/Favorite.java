@@ -17,7 +17,7 @@ public class Favorite {
     @Column(name ="favorite_name")
     private String name;
 
-    @Formula("(select count(*) from favorite_has_work a where a.favorite_id = id")
+    @Formula("(select count(*) from favorite_has_work a where a.favorite_id = id)")
     @Column(name ="work_num")
     private Integer workNum;
 
