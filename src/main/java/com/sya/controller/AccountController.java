@@ -46,7 +46,7 @@ public class AccountController {
         return getAccountStatus(user);
     }
 
-    @GetMapping(path = "/LoginStatus")
+    @PostMapping(path = "/LoginStatus")
     public @ResponseBody
     AccountStatus getLoginStatus(@CookieValue(value = "sessionId",
             defaultValue = "noSession") String sessionId){

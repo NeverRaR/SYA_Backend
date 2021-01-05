@@ -50,6 +50,9 @@ public class Work {
     @OneToMany(mappedBy = "work",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private Set<FavoriteHasWork> favoriteHasWorks;
 
+    @OneToMany(mappedBy = "work",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private Set<Like> likeSet;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="teacher_id")
     private User teacher;
@@ -239,5 +242,13 @@ public class Work {
 
     public void setApplies(Set<Apply> applies) {
         this.applies = applies;
+    }
+
+    public Set<Like> getLikeSet() {
+        return likeSet;
+    }
+
+    public void setLikeSet(Set<Like> likeSet) {
+        this.likeSet = likeSet;
     }
 }

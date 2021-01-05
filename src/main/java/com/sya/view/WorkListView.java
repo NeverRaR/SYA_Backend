@@ -27,6 +27,7 @@ public class WorkListView {
         this.pageNum = pageNum;
     }
 
+    @JsonProperty("worklist")
     public List<WorkStatus> getWorkList() {
         return workList;
     }

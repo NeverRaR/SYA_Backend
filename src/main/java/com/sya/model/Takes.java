@@ -26,9 +26,6 @@ public class Takes implements Serializable {
     @Column(name = "absent_time")
     private Double absentTime;
 
-    @Column(name = "likes_status")
-    private Integer likesStatus;
-
     private Integer status;
 
     @Override
@@ -83,14 +80,6 @@ public class Takes implements Serializable {
 
     public void setAbsentTime(Double absentTime) {
         this.absentTime = absentTime;
-    }
-
-    public Integer getLikesStatus() {
-        return likesStatus;
-    }
-
-    public void setLikesStatus(Integer likesStatus) {
-        this.likesStatus = likesStatus;
     }
 
     public Integer getStatus() {

@@ -71,6 +71,9 @@ public class User {
     @OneToMany(mappedBy = "teacher",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private Set<Apply> teacherApplies;
 
+    @OneToMany(mappedBy = "student",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private Set<Like> likeSet;
+
     @OneToOne(mappedBy = "student",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private Resume studentResume;
 
@@ -264,5 +267,13 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public Set<Like> getLikeSet() {
+        return likeSet;
+    }
+
+    public void setLikeSet(Set<Like> likeSet) {
+        this.likeSet = likeSet;
     }
 }
