@@ -26,7 +26,7 @@ public class Favorite {
     private User user;
 
 
-    @OneToMany(mappedBy = "favorite",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "favorite",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<FavoriteHasWork> favoriteHasWorks;
 
     public Integer getId() {
@@ -49,11 +49,21 @@ public class Favorite {
         return workNum;
     }
 
+    public void setWorkNum(Integer workNum) { this.workNum = workNum; }
+
     public Set<FavoriteHasWork> getFavoriteHasWorks() {
         return favoriteHasWorks;
     }
 
     public void setFavoriteHasWorks(Set<FavoriteHasWork> favoriteHasWorks) {
         this.favoriteHasWorks = favoriteHasWorks;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
