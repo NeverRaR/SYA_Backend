@@ -3,6 +3,7 @@ package com.sya.controller;
 import com.sya.model.User;
 import com.sya.model.Work;
 import com.sya.request.CreateWorkRequest;
+import com.sya.request.PageQueryRequest;
 import com.sya.request.PageRequest;
 import com.sya.request.ViewWorkInfoRequest;
 import com.sya.service.AuthenticationService;
@@ -58,7 +59,7 @@ public class WorkController {
         Integer totalPage=-1;
         List<Work> workList=new LinkedList<Work>();
         totalPage=workService.getOwnWorkByPage(body.getPageNum(),body.getPageSize(),student,workList);
-        return getWorkListView(body, totalPage, workList);
+        return getWorkListView(body.getPageNum(), totalPage, workList);
 
     }
 
@@ -69,11 +70,37 @@ public class WorkController {
         Integer totalPage=-1;
         List<Work> workList=new LinkedList<Work>();
         totalPage=workService.getAllWorkByPage(body.getPageNum(),body.getPageSize(),workList);
-        return getWorkListView(body, totalPage, workList);
+        return getWorkListView(body.getPageNum(), totalPage, workList);
 
     }
 
-    private WorkListView getWorkListView(PageRequest body, Integer totalPage, List<Work> workList) {
+    @PostMapping(path = "/FindWork")
+    public @ResponseBody
+    Object FindWork(@RequestBody PageQueryRequest body) {
+
+        Integer totalPage=-1;
+        List<Work> workList=new LinkedList<Work>();
+        totalPage=workService.findAllWorkByPage(body.getPageNum(),body.getPageSize(),workList, body.getQuery());
+        return getWorkListView(body.getPageNum(), totalPage, workList);
+
+    }
+
+    @PostMapping(path = "/FindOwnWork")
+    public @ResponseBody
+    Object FindOwnWork(@RequestBody PageQueryRequest body,@CookieValue(value = "sessionId",
+            defaultValue = "noSession") String sessionId) {
+        User student=authenticationService.getUser(sessionId);
+        if(student==null) {
+            return new Message("sessionId is invalid!");
+        }
+        Integer totalPage=-1;
+        List<Work> workList=new LinkedList<Work>();
+        totalPage=workService.findOwnWorkByPage(body.getPageNum(),body.getPageSize(),student,workList, body.getQuery());
+        return getWorkListView(body.getPageNum(), totalPage, workList);
+
+    }
+
+    private WorkListView getWorkListView(Integer pageNum, Integer totalPage, List<Work> workList) {
         List<WorkStatus> workStatusList=new LinkedList<WorkStatus>();
         for(Work work:workList){
             WorkStatus workStatus=new WorkStatus();
@@ -83,7 +110,7 @@ public class WorkController {
         WorkListView workListView=new WorkListView();
         workListView.setTotalPage(totalPage);
         workListView.setWorkList(workStatusList);
-        workListView.setPageNum(body.getPageNum());
+        workListView.setPageNum(pageNum);
         return workListView;
     }
 

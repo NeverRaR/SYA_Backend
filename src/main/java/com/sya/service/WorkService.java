@@ -6,7 +6,6 @@ import com.sya.model.User;
 import com.sya.model.Work;
 import com.sya.request.CreateWorkRequest;
 import com.sya.view.WorkListView;
-import com.sya.view.WorkStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -52,35 +51,69 @@ public class WorkService {
     }
 
     public Integer getOwnWorkByPage(Integer pageNum,Integer pageSize,User student,List<Work> workList) {
-       Set<Takes> takesSet=student.getTakesSet();
-       if(takesSet.isEmpty()) return 0;
-       WorkListView workListView=new WorkListView();
-       workListView.setPageNum(pageNum);
-       workListView.setTotalPage(takesSet.size());
-       int offset=(pageSize-1)*pageNum;
-       int count=0;
-       for(Takes takes: takesSet){
-           count++;
-           if(count<=offset) {
-               continue;
-           }
-           if(count>offset+pageSize){
-               break;
-           }
-           workList.add(takes.getWork());
-       }
-       return 1+(takesSet.size()-1)/pageSize;
+        Set<Takes> takesSet=student.getTakesSet();
+        if(takesSet.isEmpty()) {
+            return 0;
+        }
+        WorkListView workListView=new WorkListView();
+        workListView.setPageNum(pageNum);
+        workListView.setTotalPage(takesSet.size());
+        int offset=(pageNum-1)*pageSize;
+        int count=0;
+        for(Takes takes: takesSet){
+            count++;
+            if(count<=offset) {
+                continue;
+            }
+            if(count>offset+pageSize){
+                break;
+            }
+            workList.add(takes.getWork());
+        }
+        return 1+(takesSet.size()-1)/pageSize;
 
     }
 
     public Integer getAllWorkByPage(Integer pageNum,Integer pageSize,List<Work> workList){
-        Sort sort=Sort.by(Sort.Direction.DESC,"id");
+        Sort sort=Sort.by("id");
         Pageable pageable= PageRequest.of(pageNum-1,pageSize,sort);
         Page<Work> workPage=workDAO.findAll(pageable);
         for(Work work:workPage){
             workList.add(work);
         }
-        return (workDAO.findNum()-1)/pageSize+1;
+        Integer allWork=workDAO.findAllNum();
+        if(allWork.equals(0)) {
+            return 0;
+        }
+        return (allWork-1)/pageSize+1;
+    }
+
+    public Integer findOwnWorkByPage(Integer pageNum,Integer pageSize,User student,List<Work> workList,String query) {
+        Integer totalWork=0;
+        totalWork=workDAO.findOwnNum(student.getId(),query);
+        if(totalWork.equals(0)) {
+            return 0;
+        }
+        List<Integer> list=workDAO.findOwnWork(student.getId(),query,(pageNum-1)*pageSize,pageSize);
+        Iterable<Work> workIterable= workDAO.findAllById(workDAO.findOwnWork(student.getId(),query,(pageNum-1)*pageSize,pageSize));
+        for(Work work: workIterable){
+            workList.add(work);
+        }
+        return 1+(totalWork-1)/pageSize;
+    }
+
+    public Integer findAllWorkByPage(Integer pageNum,Integer pageSize,List<Work> workList,String query) {
+
+        Integer totalWork=0;
+        totalWork=workDAO.findAllNum(query);
+        if(totalWork.equals(0)) {
+            return 0;
+        }
+        Iterable<Work> workIterable= workDAO.findAllById(workDAO.findAllWork((pageNum-1)*pageSize,pageSize,query));
+        for(Work work: workIterable){
+            workList.add(work);
+        }
+        return 1+(totalWork-1)/pageSize;
     }
 
 }
