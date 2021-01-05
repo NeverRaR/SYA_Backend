@@ -56,4 +56,12 @@ public class Favorite {
     public void setFavoriteHasWorks(Set<FavoriteHasWork> favoriteHasWorks) {
         this.favoriteHasWorks = favoriteHasWorks;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
