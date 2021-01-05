@@ -64,6 +64,10 @@ public class MessageLibrary {
         return time;
     }
 
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
     public Integer getStatus() {
         return status;
     }
