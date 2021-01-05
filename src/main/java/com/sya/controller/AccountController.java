@@ -48,6 +48,7 @@ public class AccountController {
         String sessionId=authenticationService.createSessionId(body.getUsername(),body.getPassword());
         Cookie cookie=new Cookie("sessionId",sessionId);
         cookie.setMaxAge(3 * 60 * 60);
+        cookie.setPath("/");
         response.addCookie(cookie);
         User user=authenticationService.getUser(sessionId);
         return getAccountStatus(user);

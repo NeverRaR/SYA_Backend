@@ -26,10 +26,10 @@ public class Work {
 
     private Integer salary;
 
-    @Formula("(select count(*) from takes a where a.work_id = id)")
+    @Formula("(select count(*) from takes a where a.work_id = work_id)")
     private Integer likesNum;
 
-    @Formula("(select count(*) from favorite_has_work a where a.work_id = id)")
+    @Formula("(select count(*) from favorite_has_work a where a.work_id = work_id)")
     private Integer collectNum;
 
     @Column(name="start_day")

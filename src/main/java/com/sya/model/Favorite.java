@@ -17,7 +17,7 @@ public class Favorite {
     @Column(name ="favorite_name")
     private String name;
 
-    @Formula("(select count(*) from favorite_has_work a where a.favorite_id = id)")
+    @Formula("(select count(*) from favorite_has_work a where a.favorite_id = favorite_id)")
     @Column(name ="work_num")
     private Integer workNum;
 
@@ -26,7 +26,7 @@ public class Favorite {
     private User user;
 
 
-    @OneToMany(mappedBy = "favorite",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "favorite",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<FavoriteHasWork> favoriteHasWorks;
 
     public Integer getId() {
@@ -48,6 +48,8 @@ public class Favorite {
     public Integer getWorkNum() {
         return workNum;
     }
+
+    public void setWorkNum(Integer workNum) { this.workNum = workNum; }
 
     public Set<FavoriteHasWork> getFavoriteHasWorks() {
         return favoriteHasWorks;
