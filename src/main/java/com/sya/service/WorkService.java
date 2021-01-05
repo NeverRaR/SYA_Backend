@@ -8,6 +8,10 @@ import com.sya.request.CreateWorkRequest;
 import com.sya.view.WorkListView;
 import com.sya.view.WorkStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,8 +69,18 @@ public class WorkService {
            }
            workList.add(takes.getWork());
        }
-       return 1+takesSet.size()/pageSize;
+       return 1+(takesSet.size()-1)/pageSize;
 
+    }
+
+    public Integer getAllWorkByPage(Integer pageNum,Integer pageSize,List<Work> workList){
+        Sort sort=Sort.by(Sort.Direction.DESC,"id");
+        Pageable pageable= PageRequest.of(pageNum-1,pageSize,sort);
+        Page<Work> workPage=workDAO.findAll(pageable);
+        for(Work work:workPage){
+            workList.add(work);
+        }
+        return (workDAO.findNum()-1)/pageSize+1;
     }
 
 }

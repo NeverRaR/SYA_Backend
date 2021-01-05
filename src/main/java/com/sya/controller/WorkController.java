@@ -58,6 +58,22 @@ public class WorkController {
         Integer totalPage=-1;
         List<Work> workList=new LinkedList<Work>();
         totalPage=workService.getOwnWorkByPage(body.getPageNum(),body.getPageSize(),student,workList);
+        return getWorkListView(body, totalPage, workList);
+
+    }
+
+
+    @PostMapping(path = "/ViewAllWork")
+    public @ResponseBody
+    Object ViewAllWork(@RequestBody PageRequest body) {
+        Integer totalPage=-1;
+        List<Work> workList=new LinkedList<Work>();
+        totalPage=workService.getAllWorkByPage(body.getPageNum(),body.getPageSize(),workList);
+        return getWorkListView(body, totalPage, workList);
+
+    }
+
+    private WorkListView getWorkListView(PageRequest body, Integer totalPage, List<Work> workList) {
         List<WorkStatus> workStatusList=new LinkedList<WorkStatus>();
         for(Work work:workList){
             WorkStatus workStatus=new WorkStatus();
@@ -69,7 +85,6 @@ public class WorkController {
         workListView.setWorkList(workStatusList);
         workListView.setPageNum(body.getPageNum());
         return workListView;
-
     }
 
     private WorkStatus getWorkStatus(Work work){
