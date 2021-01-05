@@ -40,6 +40,7 @@ public class AccountController {
         String sessionId=authenticationService.createSessionId(body.getUsername(),body.getPassword());
         Cookie cookie=new Cookie("sessionId",sessionId);
         cookie.setMaxAge(3 * 60 * 60);
+        cookie.setPath("/");
         response.addCookie(cookie);
 
         User user=authenticationService.getUser(sessionId);
@@ -60,6 +61,7 @@ public class AccountController {
             defaultValue = "noSession") String sessionId,HttpServletResponse response){
         authenticationService.invalidateSessionId(sessionId);
         Cookie cookie=new Cookie("sessionId",null);
+        cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
