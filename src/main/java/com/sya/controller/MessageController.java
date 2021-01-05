@@ -1,6 +1,7 @@
 package com.sya.controller;
 
 
+import com.sya.common.Pagination;
 import com.sya.model.User;
 import com.sya.request.CreateMessageDto;
 import com.sya.request.MessageIdDto;
@@ -8,7 +9,7 @@ import com.sya.service.AuthenticationService;
 import com.sya.service.MessageService;
 import com.sya.view.Message;
 import com.sya.view.MessageInfo;
-import com.sya.view.MessageInfoList;
+import com.sya.view.MessageInfoPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class MessageController {
         if(user.getRole().equals(1)){
             return new Message("Student cannot create message");
         }
-        return new MessageInfo(messageService.CreateMessage(createMessageDto,user));
+        return new MessageInfo(messageService.CreateNormalMessage(createMessageDto,user));
     }
 
     @PostMapping("DeleteMessage")
@@ -78,28 +79,42 @@ public class MessageController {
 
     @PostMapping("FindSendMessage")
     @ResponseBody
-    public MessageInfoList FindSendMessage(
+    public MessageInfoPage FindSendMessage(
+            @RequestBody Pagination pagination,
             @CookieValue(value = "sessionId", defaultValue = "noSession") String sessionId
     ) {
         User user = authenticationService.getUser(sessionId);
         if (user == null) {
             return null;
         }
-        return messageService.FindSendMessage(user);
+        return messageService.FindSendMessage(user,pagination);
     }
 
     @PostMapping("FindReceiveMessage")
     @ResponseBody
-    public MessageInfoList FindReceiveMessage(
+    public MessageInfoPage FindReceiveMessage(
+            @RequestBody Pagination pagination,
             @CookieValue(value = "sessionId", defaultValue = "noSession") String sessionId
     ) {
         User user = authenticationService.getUser(sessionId);
         if (user == null) {
             return null;
         }
-        return messageService.FindReceiveMessage(user);
+        return messageService.FindReceiveMessage(user,pagination,0);
     }
 
+    @PostMapping("FindReceiveResign")
+    @ResponseBody
+    public MessageInfoPage FindReceiveResign(
+            @RequestBody Pagination pagination,
+            @CookieValue(value = "sessionId", defaultValue = "noSession") String sessionId
+    ) {
+        User user = authenticationService.getUser(sessionId);
+        if (user == null) {
+            return null;
+        }
+        return messageService.FindReceiveMessage(user,pagination,1);
+    }
 
 
 }
