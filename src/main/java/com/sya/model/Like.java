@@ -3,6 +3,7 @@ package com.sya.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Table(name="work_like")
 @Entity
 public class Like implements Serializable {
 
