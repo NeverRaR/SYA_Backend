@@ -2,6 +2,7 @@ package com.sya.controller;
 
 import com.sya.model.Resume;
 import com.sya.model.User;
+import com.sya.request.ResumeIdRequest;
 import com.sya.request.ResumeRequest;
 import com.sya.service.AuthenticationService;
 import com.sya.service.ResumeService;
@@ -60,6 +61,16 @@ public class ResumeController {
         Resume resume=resumeService.updateResume(body,student);
         if(resume==null) {
             return new ErrorView(-1,"You dont have resume!");
+        }
+        return  getResumeView(resume);
+    }
+
+    @PutMapping(path = "/GetResumeInfo")
+    public @ResponseBody
+    Object GetResumeInfo (@RequestBody ResumeIdRequest body){
+        Resume resume=resumeService.getResume(body.getResumeId());
+        if(resume==null) {
+            return new ErrorView(-1,"Resume isn't exist!");
         }
         return  getResumeView(resume);
     }
