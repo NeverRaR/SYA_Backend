@@ -51,26 +51,16 @@ public class WorkService {
     }
 
     public Integer getOwnWorkByPage(Integer pageNum,Integer pageSize,User student,List<Work> workList) {
-        Set<Takes> takesSet=student.getTakesSet();
-        if(takesSet.isEmpty()) {
+        Integer totalWork=0;
+        totalWork=workDAO.findOwnNum(student.getId());
+        if(totalWork.equals(0)) {
             return 0;
         }
-        WorkListView workListView=new WorkListView();
-        workListView.setPageNum(pageNum);
-        workListView.setTotalPage(takesSet.size());
-        int offset=(pageNum-1)*pageSize;
-        int count=0;
-        for(Takes takes: takesSet){
-            count++;
-            if(count<=offset) {
-                continue;
-            }
-            if(count>offset+pageSize){
-                break;
-            }
-            workList.add(takes.getWork());
+        Iterable<Work> workIterable= workDAO.findAllById(workDAO.findOwnWork(student.getId(),(pageNum-1)*pageSize,pageSize));
+        for(Work work: workIterable){
+            workList.add(work);
         }
-        return 1+(takesSet.size()-1)/pageSize;
+        return 1+(totalWork-1)/pageSize;
 
     }
 
@@ -88,13 +78,25 @@ public class WorkService {
         return (allWork-1)/pageSize+1;
     }
 
+    public Integer getHistoryWorkByPage(Integer pageNum,Integer pageSize,User teacher,List<Work> workList){
+        Integer totalWork=0;
+        totalWork=workDAO.findHistoryNum(teacher.getId());
+        if(totalWork.equals(0)) {
+            return 0;
+        }
+        Iterable<Work> workIterable= workDAO.findAllById(workDAO.findHistoryWork(teacher.getId(),(pageNum-1)*pageSize,pageSize));
+        for(Work work: workIterable){
+            workList.add(work);
+        }
+        return 1+(totalWork-1)/pageSize;
+    }
+
     public Integer findOwnWorkByPage(Integer pageNum,Integer pageSize,User student,List<Work> workList,String query) {
         Integer totalWork=0;
         totalWork=workDAO.findOwnNum(student.getId(),query);
         if(totalWork.equals(0)) {
             return 0;
         }
-        List<Integer> list=workDAO.findOwnWork(student.getId(),query,(pageNum-1)*pageSize,pageSize);
         Iterable<Work> workIterable= workDAO.findAllById(workDAO.findOwnWork(student.getId(),query,(pageNum-1)*pageSize,pageSize));
         for(Work work: workIterable){
             workList.add(work);
@@ -115,5 +117,7 @@ public class WorkService {
         }
         return 1+(totalWork-1)/pageSize;
     }
+
+
 
 }

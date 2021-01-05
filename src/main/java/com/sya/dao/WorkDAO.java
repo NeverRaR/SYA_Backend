@@ -34,6 +34,15 @@ public interface WorkDAO extends CrudRepository<Work, Integer> {
             "order by work_id limit ?3,?4",nativeQuery = true)
     List<Integer> findOwnWork(Integer studentId,String query,Integer offset,Integer pageSize);
 
+    @Query(value="select work_id from takes a where a.student_id=?1 order by work_id limit ?2,?3" ,nativeQuery = true)
+    List<Integer> findOwnWork(Integer studentId,Integer offset,Integer pageSize);
+
+    @Query(value="select work_id from work a where a.teacher_id=?1 order by work_id limit ?2,?3" ,nativeQuery = true)
+    List<Integer> findHistoryWork(Integer teacherId,Integer offset,Integer pageSize);
+
+    @Query(value="select count(*) from work a where a.teacher_id=?1" ,nativeQuery = true)
+    Integer findHistoryNum(Integer teacherId);
+
     @Query(value="select count(*) from work " +
             "where work_id in (select work_id from takes a where a.student_id=?1) " +
             "and (work_name like CONCAT('%',?2,'%') or work_description like CONCAT('%',?2,'%') " +

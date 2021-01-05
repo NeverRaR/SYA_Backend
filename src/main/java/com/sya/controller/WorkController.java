@@ -63,6 +63,24 @@ public class WorkController {
 
     }
 
+    @PostMapping(path = "/ViewHistoryWork")
+    public @ResponseBody
+    Object ViewHistoryWork(@RequestBody PageRequest body, @CookieValue(value = "sessionId",
+            defaultValue = "noSession") String sessionId) {
+        User teacher=authenticationService.getUser(sessionId);
+        if(teacher==null) {
+            return new Message("sessionId is invalid!");
+        }
+        if(teacher.getRole().equals(1)){
+            return new Message("ViewHistoryWork is not for students. Students please try ViewOwnWork.");
+        }
+        Integer totalPage=-1;
+        List<Work> workList=new LinkedList<Work>();
+        totalPage=workService.getHistoryWorkByPage(body.getPageNum(),body.getPageSize(),teacher,workList);
+        return getWorkListView(body.getPageNum(), totalPage, workList);
+
+    }
+
 
     @PostMapping(path = "/ViewAllWork")
     public @ResponseBody
