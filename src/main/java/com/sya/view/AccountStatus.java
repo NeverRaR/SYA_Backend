@@ -1,5 +1,7 @@
 package com.sya.view;
 
+import com.sya.model.User;
+
 public class AccountStatus {
 
     private Integer id;

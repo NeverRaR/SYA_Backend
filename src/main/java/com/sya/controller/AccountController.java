@@ -28,17 +28,9 @@ public class AccountController {
     public @ResponseBody
     AccountStatus addNewUser (@RequestBody RegisterRequest body) {
 
-        AccountStatus accountStatus =new AccountStatus();
-        Integer id=userService.addNewUser(body);
-        if(id == null){
-            return accountStatus;
-        }
+        User user=userService.addNewUser(body);
 
-        accountStatus.setId(id);
-        accountStatus.setEmail(body.getEmail());
-        accountStatus.setUsername(body.getUsername());
-        accountStatus.setRole(body.getRole());
-        return accountStatus;
+        return getAccountStatus(user);
 
     }
 
@@ -49,6 +41,7 @@ public class AccountController {
         Cookie cookie=new Cookie("sessionId",sessionId);
         cookie.setMaxAge(3 * 60 * 60);
         response.addCookie(cookie);
+
         User user=authenticationService.getUser(sessionId);
         return getAccountStatus(user);
     }

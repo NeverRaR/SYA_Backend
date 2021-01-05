@@ -17,7 +17,7 @@ public class UserService {
     UserDAO userDAO;
 
     @Transactional
-    public Integer addNewUser (RegisterRequest registerRequest) {
+    public User addNewUser (RegisterRequest registerRequest) {
 
         if(registerRequest.getRole() == 0) {
             return null;
@@ -37,7 +37,7 @@ public class UserService {
 
         userDAO.save(user);
 
-        return user.getId();
+        return user;
 
 
     }
