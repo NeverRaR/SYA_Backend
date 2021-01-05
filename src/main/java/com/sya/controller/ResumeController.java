@@ -49,7 +49,7 @@ public class ResumeController {
         return  status_code;
     }
 
-    @DeleteMapping(path = "/UpdateResume")
+    @PutMapping(path = "/UpdateResume")
     public @ResponseBody
     Object UpdateResume (@RequestBody ResumeRequest body,@CookieValue(value = "sessionId",
             defaultValue = "noSession") String sessionId){
@@ -62,6 +62,21 @@ public class ResumeController {
             return new ErrorView(-1,"You dont have resume!");
         }
         return  getResumeView(resume);
+    }
+
+    @GetMapping(path = "/GetResume")
+    public @ResponseBody
+    Object GetResume (@CookieValue(value = "sessionId",
+            defaultValue = "noSession") String sessionId){
+        User student=authenticationService.getUser(sessionId);
+        if(!student.getRole().equals(1)){
+            return  new Message("You aren't student!");
+        }
+        Resume resume=student.getStudentResume();
+        if(resume==null){
+            return new ErrorView(-1,"You dont have resume!");
+        }
+        return getResumeView(resume);
     }
 
     private ResumeView getResumeView(Resume resume){
