@@ -4,6 +4,7 @@ import com.sya.model.User;
 import com.sya.model.Work;
 import com.sya.request.CreateWorkRequest;
 import com.sya.request.RegisterRequest;
+import com.sya.request.ViewWorkInfoRequest;
 import com.sya.service.AuthenticationService;
 import com.sya.service.WorkService;
 import com.sya.view.AccountStatus;
@@ -38,6 +39,12 @@ public class WorkController {
         return getWorkStatus(work);
     }
 
+    @GetMapping(path = "/ViewWorkInfo")
+    public @ResponseBody
+    Object ViewWorkInfo (@RequestBody ViewWorkInfoRequest body) {
+        return getWorkStatus(workService.getWork(body.getWorkId()));
+    }
+
     private WorkStatus getWorkStatus(Work work){
         WorkStatus workStatus=new WorkStatus();
         if(work ==null){
@@ -45,6 +52,8 @@ public class WorkController {
         }
         workStatus.setId(work.getId());
         workStatus.setAddress(work.getAddress());
+        workStatus.setWorkDescription(work.getDescription());
+        workStatus.setWorkName(work.getName());
         workStatus.setCollectNum(work.getCollectNum());
         workStatus.setCover(work.getCover());
         workStatus.setEndDay(work.getEndDay());

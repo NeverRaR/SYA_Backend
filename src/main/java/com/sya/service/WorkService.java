@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class WorkService {
     @Autowired
@@ -30,7 +32,16 @@ public class WorkService {
         user.setId(teacherId);
         work.setTeacher(user);
         workDAO.save(work);
-        return work;
+        Optional<Work> optionalWork=workDAO.findById(work.getId());
+        return optionalWork.get();
+    }
+
+    public Work getWork(Integer workId) {
+        Optional<Work> optionalWork=workDAO.findById(workId);
+        if(!optionalWork.isPresent()) {
+            return null;
+        }
+        return optionalWork.get();
     }
 
 }
