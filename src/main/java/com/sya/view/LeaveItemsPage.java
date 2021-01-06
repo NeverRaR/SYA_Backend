@@ -21,8 +21,7 @@ public class LeaveItemsPage extends Pagination {
         setPageNum(leaveInformationPage.getNumber());
         setPageSize(leaveInformationPage.getSize());
         setTotalPage(leaveInformationPage.getTotalPages());
-        //FIXME: setLeaveItemList();
-
+        setLeaveItemList(leaveInformationPage);
     }
 
     private void setLeaveItemList(Page<LeaveInformation> leaveInformationPage){

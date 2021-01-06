@@ -47,7 +47,7 @@ public class LeaveController {
             return null;
         }
 
-        if (user.getRole()==0){
+        if (user.getRole()==1){
             return null;
         }
 
@@ -66,7 +66,7 @@ public class LeaveController {
             return null;
         }
 
-        if (user.getRole()==0){
+        if (user.getRole()==1){
             return null;
         }
 

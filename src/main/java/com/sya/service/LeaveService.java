@@ -32,7 +32,7 @@ public class LeaveService {
         leaveInformation.setStudent(user);
         leaveInformation.setContent(leaveRequset.getContent());
         leaveInformation.setProof(leaveRequset.getProof());
-        leaveInformation.setStatus(leaveRequset.getStatus());
+        leaveInformation.setStatus(0);
         leaveInformation.setRequestTime(new Date());
         leaveInformation.setLeaveDay(leaveRequset.getLeaveDay());
         leaveInformation.setLeaveStart(leaveRequset.getLeaveStart());
@@ -42,7 +42,7 @@ public class LeaveService {
     }
 
     public LeaveItemsPage proViewLeaves(Pagination pagination, User user){
-        return new LeaveItemsPage(leaveDao.findTeacherLeave(user.getId(), PageRequest.of(pagination.getPageNum() - 1, pagination.getPageSize())));
+        return new LeaveItemsPage(leaveDao.findByWork_Teacher(user, PageRequest.of(pagination.getPageNum() - 1, pagination.getPageSize())));
     }
 
     public LeaveItemsPage viewLeaves(Pagination pagination, User user){
@@ -60,7 +60,6 @@ public class LeaveService {
         leaveInformation.setWork(workDAO.findWorkById(leaveUpdateRequest.getWorkId()));
         leaveInformation.setContent(leaveUpdateRequest.getContent());
         leaveInformation.setProof(leaveUpdateRequest.getProof());
-        leaveInformation.setStatus(leaveUpdateRequest.getStatus());
         leaveInformation.setLeaveDay(leaveUpdateRequest.getLeaveDay());
         leaveInformation.setLeaveStart(leaveUpdateRequest.getLeaveStart());
         leaveInformation.setLeaveEnd(leaveUpdateRequest.getLeaveEnd());
