@@ -1,5 +1,8 @@
 package com.sya.view;
 
+import lombok.Data;
+
+@Data
 public class Message {
     private String message;
 

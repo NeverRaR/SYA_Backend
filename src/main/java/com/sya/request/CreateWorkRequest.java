@@ -1,9 +1,10 @@
 package com.sya.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 
-
+@Data
 public class CreateWorkRequest {
     private String workName;
     private String cover;

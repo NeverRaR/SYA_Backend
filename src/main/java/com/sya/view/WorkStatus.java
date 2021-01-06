@@ -2,7 +2,9 @@ package com.sya.view;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sya.model.Work;
+import lombok.Data;
 
+@Data
 public class WorkStatus {
     private Integer id;
     private String workName;

@@ -7,6 +7,8 @@ import com.sya.service.AuthenticationService;
 import com.sya.service.UserService;
 import com.sya.view.AccountStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,10 +39,15 @@ public class AccountController {
     public @ResponseBody
     AccountStatus login(@RequestBody LoginRequest body, HttpServletResponse response){
         String sessionId=authenticationService.createSessionId(body.getUsername(),body.getPassword());
-        Cookie cookie=new Cookie("sessionId",sessionId);
-        cookie.setMaxAge(3 * 60 * 60);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+
+
+        ResponseCookie responseCookie = ResponseCookie.from("sessionId", sessionId)
+                .maxAge(3* 60 * 60)
+                .sameSite("None")
+                .secure(false)
+                .path("/")
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
 
         User user=authenticationService.getUser(sessionId);
         return getAccountStatus(user);

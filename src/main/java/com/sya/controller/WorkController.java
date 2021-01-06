@@ -49,7 +49,7 @@ public class WorkController {
         return getWorkStatus(work);
     }
 
-    @GetMapping(path = "/ViewWorkInfo")
+    @PostMapping(path = "/ViewWorkInfo")
     public @ResponseBody
     WorkStatus ViewWorkInfo (@RequestBody ViewWorkInfoRequest body) {
         return getWorkStatus(workService.getWorkById(body.getWorkId()));

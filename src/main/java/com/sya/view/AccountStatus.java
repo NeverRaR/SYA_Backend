@@ -1,7 +1,9 @@
 package com.sya.view;
 
 import com.sya.model.User;
+import lombok.Data;
 
+@Data
 public class AccountStatus {
 
     private Integer id;

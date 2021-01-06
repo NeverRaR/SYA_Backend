@@ -1,7 +1,9 @@
 package com.sya.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class UpdateWorkRequest {
     private Integer workId;
     private String workName;

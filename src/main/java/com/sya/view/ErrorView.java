@@ -1,5 +1,8 @@
 package com.sya.view;
 
+import lombok.Data;
+
+@Data
 public class ErrorView {
     private Integer errorCode;
     private String message;
