@@ -34,4 +34,11 @@ public class AnnouncementItem {
         setSendTime(announcement.getSendTime().toString());
         setContent(announcement.getContent());
     }
+
+    public AnnouncementItem(Announcement announcement) {
+        setAnnouncementId(announcement.getId());
+        setTitle(announcement.getTitle());
+        setSendTime(announcement.getSendTime().toString());
+        setContent(announcement.getContent());
+    }
 }
