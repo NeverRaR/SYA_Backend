@@ -116,11 +116,13 @@ public class AnnouncementService {
     }
 
     public AnnouncementItemsPage getSendAnnouncement(Pagination pagination, User user) {
-        Page<AnnouncementSend> announcementSendPage = announcementSendDAO.findAllByAnnouncement_UserId(
+        Page<Announcement> announcementPage = announcementDAO.findAllByUserId(
                 user.getId(),
                 PageRequest.of(pagination.getPageNum() - 1, pagination.getPageSize())
         );
 
-        return new AnnouncementItemsPage(announcementSendPage);
+        AnnouncementItemsPage announcementItemsPage = new AnnouncementItemsPage();
+        announcementItemsPage.setAnnouncement(announcementPage);
+        return announcementItemsPage;
     }
 }

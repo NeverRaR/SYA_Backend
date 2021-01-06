@@ -1,6 +1,8 @@
 package com.sya.dao;
 
 import com.sya.model.Announcement;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -20,4 +22,6 @@ public interface AnnouncementDAO extends CrudRepository<Announcement,Integer> {
 //            @Param("announcementId") Integer announcementId,
 //            @Param("status") Integer status
 //    );
+
+    Page<Announcement> findAllByUserId(Integer userId, Pageable pageable);
 }
