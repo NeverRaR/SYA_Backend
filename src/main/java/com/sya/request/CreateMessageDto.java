@@ -14,7 +14,7 @@ public class CreateMessageDto {
     @JsonProperty("message_type")
     private Integer messageType;
 
-    @JsonProperty("Content")
+    @JsonProperty("content")
     private String Content;
 
     @JsonProperty("receiver_id")
