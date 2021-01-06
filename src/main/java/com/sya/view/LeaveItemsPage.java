@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(callSuper = false)
 public class LeaveItemsPage extends Pagination {
 
+    @JsonProperty("total")
+    private Integer total;
+
     @JsonProperty("leavelist")
     private List<LeaveItem> leaveItemList;
 
@@ -22,6 +25,7 @@ public class LeaveItemsPage extends Pagination {
         setPageSize(leaveInformationPage.getSize());
         setTotalPage(leaveInformationPage.getTotalPages());
         setLeaveItemList(leaveInformationPage);
+        setTotal(leaveInformationPage.getNumberOfElements()+(leaveInformationPage.getTotalPages()-1)*leaveInformationPage.getSize());
     }
 
     private void setLeaveItemList(Page<LeaveInformation> leaveInformationPage){
