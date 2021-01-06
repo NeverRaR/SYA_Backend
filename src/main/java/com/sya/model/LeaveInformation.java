@@ -121,7 +121,7 @@ public class LeaveInformation {
             int i;
             double rate = 1.0;
             for (i = 0; i < startTimes.length; ++i) {
-                totalTime += Double.parseDouble(endTimes[i]) - Double.parseDouble(startTimes[i]) * rate;
+                totalTime += (Double.parseDouble(endTimes[i]) - Double.parseDouble(startTimes[i])) * rate;
                 rate /= 60;
             }
         }
