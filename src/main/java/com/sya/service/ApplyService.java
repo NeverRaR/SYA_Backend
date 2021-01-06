@@ -95,6 +95,7 @@ public class ApplyService {
             take.setWork(apply.getWork());
             take.setWorkTime(apply.getWork().getTotalTime());
             take.setStudent(apply.getStudent());
+            take.setStatus(0);
             takesDAO.save(take);
             return new ApplyInfo(apply);
         }
