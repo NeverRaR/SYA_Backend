@@ -20,6 +20,7 @@ public class WorkStatus {
     private String endTime;
     private Double totalTime;
     private Integer weekDay;
+    private Integer status;
 
     public void setWork(Work work){
         setId(work.getId());

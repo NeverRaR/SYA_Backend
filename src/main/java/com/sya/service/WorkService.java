@@ -1,8 +1,11 @@
 package com.sya.service;
 
+import com.sya.dao.TakesDAO;
 import com.sya.dao.WorkDAO;
+import com.sya.model.Takes;
 import com.sya.model.User;
 import com.sya.model.Work;
+import com.sya.model.pk.TakesPK;
 import com.sya.request.CreateWorkRequest;
 import com.sya.request.UpdateWorkRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class WorkService {
 
     @Autowired
     TakesService takesService;
+
+    @Autowired
+    TakesDAO takesDAO;
 
     @Transactional
     public Work addNewWork(CreateWorkRequest body, Integer teacherId) {
@@ -125,7 +131,7 @@ public class WorkService {
         return 1+(totalWork-1)/pageSize;
     }
 
-    public Integer findOwnWorkByPage(Integer pageNum,Integer pageSize,User student,List<Work> workList,String query) {
+    public Integer findOwnWorkByPage(Integer pageNum,Integer pageSize,User student,List<Work> workList,String query,List<Integer> statusList) {
         Integer totalWork=0;
         totalWork=workDAO.findOwnNum(student.getId(),query);
         if(totalWork.equals(0)) {
@@ -134,6 +140,10 @@ public class WorkService {
         Iterable<Work> workIterable= workDAO.findAllById(workDAO.findOwnWork(student.getId(),query,(pageNum-1)*pageSize,pageSize));
         for(Work work: workIterable){
             workList.add(work);
+        }
+        List<Integer> list= takesDAO.findOwnWorkStatus(student.getId(),query,(pageNum-1)*pageSize,pageSize);
+        for(Integer status:list){
+            statusList.add(status);
         }
         return 1+(totalWork-1)/pageSize;
     }

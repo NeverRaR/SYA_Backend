@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Optional;
 
 @Controller
@@ -66,7 +68,7 @@ public class WorkController {
         Integer totalPage=-1;
         List<Work> workList=new LinkedList<Work>();
         totalPage=workService.getOwnWorkByPage(body.getPageNum(),body.getPageSize(),student,workList);
-        return getWorkListView(body.getPageNum(), totalPage, workList);
+        return getWorkListView(body.getPageNum(), totalPage, workList,null);
 
     }
 
@@ -85,7 +87,7 @@ public class WorkController {
         Integer totalPage=-1;
         List<Work> workList=new LinkedList<Work>();
         totalPage=workService.getHistoryWorkByPage(body.getPageNum(),body.getPageSize(),teacher,workList);
-        return getWorkListView(body.getPageNum(), totalPage, workList);
+        return getWorkListView(body.getPageNum(), totalPage, workList,null);
 
     }
 
@@ -96,7 +98,7 @@ public class WorkController {
         Integer totalPage=-1;
         List<Work> workList=new LinkedList<Work>();
         totalPage=workService.getAllWorkByPage(body.getPageNum(),body.getPageSize(),workList);
-        return getWorkListView(body.getPageNum(), totalPage, workList);
+        return getWorkListView(body.getPageNum(), totalPage, workList,null);
 
     }
 
@@ -107,7 +109,7 @@ public class WorkController {
         Integer totalPage=-1;
         List<Work> workList=new LinkedList<Work>();
         totalPage=workService.findAllWorkByPage(body.getPageNum(),body.getPageSize(),workList, body.getQuery());
-        return getWorkListView(body.getPageNum(), totalPage, workList);
+        return getWorkListView(body.getPageNum(), totalPage, workList,null);
 
     }
 
@@ -121,8 +123,9 @@ public class WorkController {
         }
         Integer totalPage=-1;
         List<Work> workList=new LinkedList<Work>();
-        totalPage=workService.findOwnWorkByPage(body.getPageNum(),body.getPageSize(),student,workList, body.getQuery());
-        return getWorkListView(body.getPageNum(), totalPage, workList);
+        List<Integer> statusList=new LinkedList<Integer>();
+        totalPage=workService.findOwnWorkByPage(body.getPageNum(),body.getPageSize(),student,workList, body.getQuery(),statusList);
+        return getWorkListView(body.getPageNum(), totalPage, workList,statusList);
 
     }
 
@@ -198,11 +201,16 @@ public class WorkController {
 
     }
 
-    private WorkListView getWorkListView(Integer pageNum, Integer totalPage, List<Work> workList) {
+    private WorkListView getWorkListView(Integer pageNum, Integer totalPage, List<Work> workList,List<Integer> statusList) {
         List<WorkStatus> workStatusList=new LinkedList<WorkStatus>();
+        ListIterator<Integer> statusIt=null;
+        if(statusList != null) statusIt=statusList.listIterator();
         for(Work work:workList){
             WorkStatus workStatus=new WorkStatus();
             workStatus.setWork(work);
+            if(statusIt!=null&&statusIt.hasNext()){
+                workStatus.setStatus(statusIt.next());
+            }
             workStatusList.add(workStatus);
         }
         WorkListView workListView=new WorkListView();

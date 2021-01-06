@@ -5,6 +5,7 @@ import com.sya.dao.ApplyDAO;
 import com.sya.dao.TakesDAO;
 import com.sya.dao.WorkDAO;
 import com.sya.model.*;
+import com.sya.model.pk.TakesPK;
 import com.sya.request.ProManageDto;
 import com.sya.view.ApplyInfo;
 import com.sya.view.ApplyInfoPage;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class ApplyService {
@@ -41,7 +44,7 @@ public class ApplyService {
         //落选 : 2
         Integer status = applyDAO.findStatus(user.getId(),workId);
 
-        if(status == null || status == 2){
+        if(status == null){
             Apply apply = new Apply();
             apply.setTeacher(work.getTeacher());
             apply.setResume(resume);
@@ -58,7 +61,7 @@ public class ApplyService {
         else if(status == 1){
             return -21;
         }
-        else {//无status和落选状态时：
+        else {//落选状态或异常时：
             return null;
         }
     }

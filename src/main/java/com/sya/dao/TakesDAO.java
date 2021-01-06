@@ -7,6 +7,8 @@ import com.sya.model.pk.TakesPK;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 public interface TakesDAO extends CrudRepository<Takes, TakesPK> {
     Takes findTakesByStudentAndWork(User user, Work work);
 
@@ -20,6 +22,9 @@ public interface TakesDAO extends CrudRepository<Takes, TakesPK> {
     Double findAbsentTime(Integer studentId);
 
 
-
-
+    @Query(value="select status from takes where student_id=?1 " +
+            "and work_id in (select work_id from work where work_name like CONCAT('%',?2,'%') " +
+            "or work_description like CONCAT('%',?2,'%') " +
+            "or address like CONCAT('%',?2,'%'))",nativeQuery = true)
+    List<Integer> findOwnWorkStatus(Integer studentId,String query,Integer offset,Integer pageSize);
 }

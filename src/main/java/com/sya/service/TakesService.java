@@ -1,6 +1,8 @@
 package com.sya.service;
 
+import com.sya.dao.ApplyDAO;
 import com.sya.dao.TakesDAO;
+import com.sya.model.Apply;
 import com.sya.model.Takes;
 import com.sya.model.pk.TakesPK;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ public class TakesService {
     @Autowired
     TakesDAO takesDAO;
 
+    @Autowired
+    ApplyDAO applyDAO;
+
     @Transactional
     public Integer resign(Integer studentId,Integer workId){
         TakesPK takesPK=new TakesPK(studentId,workId);
@@ -23,6 +28,10 @@ public class TakesService {
         }
         optionalTakes.get().setStatus(1);
         takesDAO.save(optionalTakes.get());
+        Apply apply=applyDAO.findByStudentAndWork(optionalTakes.get().getStudent(),optionalTakes.get().getWork());
+        if(apply != null) {
+            applyDAO.delete(apply);
+        }
         return 1;
     }
 

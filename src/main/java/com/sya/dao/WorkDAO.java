@@ -29,9 +29,8 @@ public interface WorkDAO extends CrudRepository<Work, Integer> {
 
     @Query(value="select work_id from work " +
             "where work_id in (select work_id from takes a where a.student_id=?1) " +
-            "and (work_name like CONCAT('%',?2,'%') or  work_description like CONCAT('%',?2,'%') " +
-            "or address like CONCAT('%',?2,'%'))" +
-            "order by work_id limit ?3,?4",nativeQuery = true)
+            "and (work_name like CONCAT('%',?2,'%') or work_description like CONCAT('%',?2,'%') " +
+            "or address like CONCAT('%',?2,'%'))",nativeQuery = true)
     List<Integer> findOwnWork(Integer studentId,String query,Integer offset,Integer pageSize);
 
     @Query(value="select work_id from takes a where a.student_id=?1 order by work_id limit ?2,?3" ,nativeQuery = true)

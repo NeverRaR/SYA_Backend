@@ -3,6 +3,7 @@ package com.sya.dao;
 import com.sya.model.Apply;
 import com.sya.model.MessageLibrary;
 import com.sya.model.User;
+import com.sya.model.Work;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +21,7 @@ public interface ApplyDAO extends CrudRepository<Apply,Integer> {
     Integer countAllByStudent(User student);
 
     Page<Apply> findAllByTeacher(User user, Pageable pageable);
+
+    Apply findByStudentAndWork(User student, Work work);
 
 }

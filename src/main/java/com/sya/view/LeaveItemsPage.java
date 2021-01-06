@@ -21,11 +21,13 @@ public class LeaveItemsPage extends Pagination {
     private List<LeaveItem> leaveItemList;
 
     public LeaveItemsPage(Page<LeaveInformation> leaveInformationPage){
-        setPageNum(leaveInformationPage.getNumber());
-        setPageSize(leaveInformationPage.getSize());
-        setTotalPage(leaveInformationPage.getTotalPages());
-        setLeaveItemList(leaveInformationPage);
-        setTotal(leaveInformationPage.getNumberOfElements()+(leaveInformationPage.getTotalPages()-1)*leaveInformationPage.getSize());
+        if(leaveInformationPage!=null) {
+            setPageNum(leaveInformationPage.getNumber());
+            setPageSize(leaveInformationPage.getSize());
+            setTotalPage(leaveInformationPage.getTotalPages());
+            setLeaveItemList(leaveInformationPage);
+            setTotal(leaveInformationPage.getNumberOfElements() + (leaveInformationPage.getTotalPages() - 1) * leaveInformationPage.getSize());
+        }
     }
 
     private void setLeaveItemList(Page<LeaveInformation> leaveInformationPage){
