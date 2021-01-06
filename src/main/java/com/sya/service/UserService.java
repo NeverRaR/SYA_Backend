@@ -7,6 +7,7 @@ import com.sya.dao.UserDAO;
 import com.sya.model.Salary;
 import com.sya.model.User;
 import com.sya.request.RegisterRequest;
+import com.sya.request.UpdateUserRequest;
 import com.sya.util.HashHelper;
 import com.sya.view.UserStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,19 @@ public class UserService {
         return user;
     }
 
+    @Transactional
+    public User updateUser (User user, UpdateUserRequest body) {
+
+        user.setBank(body.getBank());
+        user.setAvatar(body.getAvatar());
+        user.setGender(body.getGender());
+        user.setTel(body.getTel());
+
+        userDAO.save(user);
+
+        return user;
+    }
+
     public UserStatus getUserInfo(User user){
         UserStatus userStatus=new UserStatus();
         userStatus.setUser(user);
@@ -64,4 +78,5 @@ public class UserService {
         userStatus.setIncome(salaryDAO.findIncome(user.getId()));
         return userStatus;
     }
+
 }
