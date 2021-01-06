@@ -3,10 +3,7 @@ package com.sya.controller;
 import com.sya.model.User;
 import com.sya.model.Work;
 import com.sya.request.*;
-import com.sya.service.AuthenticationService;
-import com.sya.service.LikeService;
-import com.sya.service.TakesService;
-import com.sya.service.WorkService;
+import com.sya.service.*;
 import com.sya.view.ErrorView;
 import com.sya.view.Message;
 import com.sya.view.WorkListView;
@@ -33,6 +30,9 @@ public class WorkController {
 
     @Autowired
     TakesService takesService;
+
+    @Autowired
+    MessageService messageService;
 
     @PostMapping(path = "/CreateWork")
     public @ResponseBody
@@ -156,7 +156,10 @@ public class WorkController {
         if(student==null) {
             return new Message("sessionId is invalid!");
         }
-        return takesService.resign(student.getId(), body.getWorkId());
+        Integer result = takesService.resign(student.getId(), body.getWorkId());
+        //如果辞职成功，那么将向老师发送一条辞职信息
+        if(result.equals(1)) messageService.CreateResignMessage(student,body.getWorkId());
+        return result;
     }
 
     @PostMapping(path = "/Deleteresign")

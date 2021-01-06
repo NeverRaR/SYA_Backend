@@ -62,5 +62,6 @@ public interface WorkDAO extends CrudRepository<Work, Integer> {
             ,nativeQuery = true)
     Integer findAllNum(String query);
 
+    Work findWorkById(Integer workId);
 }
 
