@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 
 
 @Component
@@ -41,10 +42,8 @@ public class HttpLogger {
 
 
         Class[] paramTypeArray = methodSignature.getParameterTypes();
-        logger.info("调用方法为:{}",className+"."+methodName);
-        logger.info("请求参数为:{}",args);
         Object result = joinPoint.proceed(args);
-        logger.info("响应结果为:{}",result);
+        logger.info("\n{}:\n调用方法为:{}\n请求参数为:{}\n响应结果为:{}",new Date(),className+"."+methodName,args,result);
         return result;
 
     }
