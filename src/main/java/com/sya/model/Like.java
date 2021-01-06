@@ -11,9 +11,6 @@ import java.io.Serializable;
 
 @Table(name="work_like")
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Like implements Serializable {
 
     private static final long serialVersionUID = -757219868928322811L;

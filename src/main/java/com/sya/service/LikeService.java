@@ -2,6 +2,8 @@ package com.sya.service;
 
 import com.sya.dao.LikeDAO;
 import com.sya.model.Like;
+import com.sya.model.User;
+import com.sya.model.Work;
 import com.sya.model.pk.LikePK;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +27,14 @@ public class LikeService {
     }
 
     @Transactional
-    public Integer changeLike(Integer studentId,Integer workId){
-        LikePK likeId=new LikePK(studentId,workId);
+    public Integer changeLike(User student, Work work){
+        LikePK likeId=new LikePK(student.getId(),work.getId());
         Optional<Like> optionalLike=likeDAO.findById(likeId);
         if(!optionalLike.isPresent()) {
             Like like=new Like();
             like.setId(likeId);
+            like.setStudent(student);
+            like.setWork(work);
             likeDAO.save(like);
             return 1;
         }

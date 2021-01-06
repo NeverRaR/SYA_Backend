@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.acl.Owner;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/Work")
@@ -128,13 +129,18 @@ public class WorkController {
 
     @PostMapping(path = "/ChangeLike")
     public @ResponseBody
-    Object ChangeLike(@RequestBody Integer body,@CookieValue(value = "sessionId",
+    Object ChangeLike(@RequestBody WorkIdRequest body,@CookieValue(value = "sessionId",
             defaultValue = "noSession") String sessionId) {
         User student=authenticationService.getUser(sessionId);
         if(student==null) {
             return new Message("sessionId is invalid!");
         }
-        return likeService.changeLike(student.getId(), body);
+
+        Work work=workService.getWorkById(body.getWorkId());
+        if(work==null){
+            return new Message("Work is not exist!");
+        }
+        return likeService.changeLike(student, work);
     }
 
     @PostMapping(path = "/GetLike")

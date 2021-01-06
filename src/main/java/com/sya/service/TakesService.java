@@ -14,6 +14,7 @@ public class TakesService {
     @Autowired
     TakesDAO takesDAO;
 
+    @Transactional
     public Integer resign(Integer studentId,Integer workId){
         TakesPK takesPK=new TakesPK(studentId,workId);
         Optional<Takes> optionalTakes=takesDAO.findById(takesPK);
@@ -21,6 +22,7 @@ public class TakesService {
             return 0;
         }
         optionalTakes.get().setStatus(1);
+        takesDAO.save(optionalTakes.get());
         return 1;
     }
 

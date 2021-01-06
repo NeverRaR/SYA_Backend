@@ -68,6 +68,7 @@ public class ApplyService {
                 pagination.getPageSize())));
     }
 
+    @Transactional
     public Object ProManageApp(ProManageDto proManageDto){
 
         if((!proManageDto.getStatus().equals(1))&&
