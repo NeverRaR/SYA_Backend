@@ -29,7 +29,7 @@ public class MessageInfoPage extends Pagination {
     }
 
     private void setMessageInfoList(Page<MessageLibrary> messageLibPage) {
-        setFavoriteItems(
+        setMessageInfoList(
                 messageLibPage
                         .stream()
                         .map(MessageInfo::new)
@@ -37,7 +37,7 @@ public class MessageInfoPage extends Pagination {
         );
     }
 
-    public void setFavoriteItems(List<MessageInfo> messageInfoList) {
+    public void setMessageInfoList(List<MessageInfo> messageInfoList) {
         this.messageInfoList = messageInfoList;
     }
 
