@@ -48,22 +48,6 @@ public class LeaveItem {
     @JsonProperty("leave_end")
     private String leaveEnd;
 
-    private Double getDurationTime(String leaveStart, String leaveEnd){
-        //FIXME: may goes wrong
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-//        Date startTime = simpleDateFormat.parse(leaveStart);
-//        Date endTime = simpleDateFormat.parse(leaveEnd);
-        String[] start = leaveStart.split(":");
-        String[] end = leaveEnd.split(":");
-        int startHour = Integer.valueOf(start[0]);
-        int startMin = Integer.valueOf(start[1]);
-        int endHour = Integer.valueOf(end[0]);
-        int endMin = Integer.valueOf(end[1]);
-        double hours = endHour-startHour;
-        double mins = (endMin-startMin)/60;
-        return hours + mins;
-    }
-
     public LeaveItem(LeaveInformation leaveInformation){
         setLeaveId(leaveInformation.getId());
         setStudentId(leaveInformation.getStudent().getId());
@@ -77,6 +61,6 @@ public class LeaveItem {
         setLeaveDay(leaveInformation.getLeaveDay());
         setLeaveStart(leaveInformation.getLeaveStart());
         setLeaveEnd(leaveInformation.getLeaveEnd());
-        setLeaveDuration(getDurationTime(leaveInformation.getLeaveStart(),leaveInformation.getLeaveEnd()));
+        setLeaveDuration(leaveInformation.getDuration());
     }
 }
