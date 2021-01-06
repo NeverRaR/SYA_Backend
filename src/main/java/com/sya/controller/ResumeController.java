@@ -65,7 +65,7 @@ public class ResumeController {
         return  getResumeView(resume);
     }
 
-    @PutMapping(path = "/GetResumeInfo")
+    @PostMapping(path = "/GetResumeInfo")
     public @ResponseBody
     Object GetResumeInfo (@RequestBody ResumeIdRequest body){
         Resume resume=resumeService.getResume(body.getResumeId());
@@ -75,7 +75,7 @@ public class ResumeController {
         return  getResumeView(resume);
     }
 
-    @GetMapping(path = "/GetResume")
+    @PostMapping(path = "/GetResume")
     public @ResponseBody
     Object GetResume (@CookieValue(value = "sessionId",
             defaultValue = "noSession") String sessionId){
