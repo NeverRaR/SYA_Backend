@@ -95,6 +95,14 @@ public class LeaveInformation {
         return leaveDay;
     }
 
+    public void setRequestTime(Date requestTime) {
+        this.requestTime = requestTime;
+    }
+
+    public void setLeaveDay(String leaveDay) {
+        this.leaveDay = leaveDay;
+    }
+
     public String getLeaveStart() {
         return leaveStart;
     }
