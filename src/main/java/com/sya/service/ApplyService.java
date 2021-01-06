@@ -39,7 +39,7 @@ public class ApplyService {
         //正在申请 : 0
         //已录用 : 1
         //落选 : 2
-        Integer status = applyDAO.findstatus(user.getId(),workId);
+        Integer status = applyDAO.findStatus(user.getId(),workId);
 
         if(status == null || status == 2){
             Apply apply = new Apply();

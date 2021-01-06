@@ -13,11 +13,12 @@ public interface ApplyDAO extends CrudRepository<Apply,Integer> {
     @Query(value = "select status from apply " +
             "where apply.student_id=:studentId " +
             "and apply.work_id=:WorkId",nativeQuery = true)
-    Integer findstatus(Integer studentId,Integer WorkId);
+    Integer findStatus(Integer studentId, Integer WorkId);
 
     Apply findApplyById(Integer Id);
 
-    Page<Apply> findAllByTeacher(User user, Pageable pageable);
+    Integer countAllByStudent(User student);
 
+    Page<Apply> findAllByTeacher(User user, Pageable pageable);
 
 }

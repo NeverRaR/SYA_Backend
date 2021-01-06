@@ -12,4 +12,5 @@ public interface UserDAO extends CrudRepository<User,Integer> {
     List<User> findAllByRole(Integer role);
 
     User findUserById(Integer id);
+
 }
