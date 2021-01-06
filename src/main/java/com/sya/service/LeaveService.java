@@ -2,8 +2,10 @@ package com.sya.service;
 
 import com.sya.common.Pagination;
 import com.sya.dao.LeaveDao;
+import com.sya.dao.TakesDAO;
 import com.sya.dao.WorkDAO;
 import com.sya.model.LeaveInformation;
+import com.sya.model.Takes;
 import com.sya.model.User;
 import com.sya.request.LeaveManagementRequest;
 import com.sya.request.LeaveRequset;
@@ -24,9 +26,14 @@ public class LeaveService {
     LeaveDao leaveDao;
     @Autowired
     WorkDAO workDAO;
+    @Autowired
+    TakesDAO takesDAO;
 
     @Transactional
     public LeaveItem createLeave(LeaveRequset leaveRequset, User user){
+        if(takesDAO.findTakesByStudentAndWork(user,workDAO.findWorkById(leaveRequset.getWorkId()))==null) {
+            return null;
+        }
         LeaveInformation leaveInformation = new LeaveInformation();
         leaveInformation.setWork(workDAO.findWorkById(leaveRequset.getWorkId()));
         leaveInformation.setStudent(user);

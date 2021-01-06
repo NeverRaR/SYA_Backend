@@ -41,7 +41,6 @@ public class LeaveController {
             @RequestBody Pagination pagination,
             @CookieValue(value = "sessionId", defaultValue = "noSession") String sessionId
     ){
-        //FIXME: 此处应该是教师鉴权
         User user = authenticationService.getUser(sessionId);
         if (user == null) {
             return null;

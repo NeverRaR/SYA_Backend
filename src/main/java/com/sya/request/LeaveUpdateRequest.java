@@ -33,4 +33,13 @@ public class LeaveUpdateRequest {
 
     @JsonProperty("leave_end")
     private String leaveEnd;
+
+    public LeaveUpdateRequest(LeaveRequset leaveRequset){
+        setContent(leaveRequset.getContent());
+        setLeaveDay(leaveRequset.getLeaveDay());
+        setLeaveStart(leaveRequset.getLeaveStart());
+        setLeaveEnd(leaveRequset.getLeaveEnd());
+        setStatus(leaveRequset.getStatus());
+        setProof(leaveRequset.getProof());
+    }
 }
