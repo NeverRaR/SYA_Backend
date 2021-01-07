@@ -1,9 +1,6 @@
 package com.sya.service;
 
-import com.sya.dao.ApplyDAO;
-import com.sya.dao.SalaryDAO;
-import com.sya.dao.TakesDAO;
-import com.sya.dao.UserDAO;
+import com.sya.dao.*;
 import com.sya.model.Salary;
 import com.sya.model.User;
 import com.sya.request.RegisterRequest;
@@ -30,6 +27,9 @@ public class UserService {
 
     @Autowired
     SalaryDAO salaryDAO;
+
+    @Autowired
+    LeaveDao leaveDao;
 
     @Transactional
     public User addNewUser (RegisterRequest registerRequest) {
@@ -72,7 +72,7 @@ public class UserService {
         UserStatus userStatus=new UserStatus();
         userStatus.setUser(user);
         userStatus.setApplyNum(applyDAO.countAllByStudent(user));
-        userStatus.setAbsentNum(takesDAO.findAbsentNum(user.getId()));
+        userStatus.setAbsentNum(leaveDao.countByStudent(user));
         userStatus.setAbsentTime(takesDAO.findAbsentTime(user.getId()));
         userStatus.setWorkTime(takesDAO.findWorkTime(user.getId()));
         userStatus.setIncome(salaryDAO.findIncome(user.getId()));

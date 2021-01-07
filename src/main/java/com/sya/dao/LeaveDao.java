@@ -18,4 +18,6 @@ public interface LeaveDao extends CrudRepository<LeaveInformation,Integer> {
 
     Page<LeaveInformation> findByWork_Teacher(User teacher, Pageable pageable);
 
+    Integer countByStudent(User student);
+
 }
