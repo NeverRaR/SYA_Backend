@@ -29,7 +29,7 @@ public class HttpLogger {
     private void httpRequestService(){};
 
     @Around("httpRequestService()")
-    public Object aroundHttpRequest(ProceedingJoinPoint joinPoint)throws Throwable{
+    public Object aroundHttpRequest(ProceedingJoinPoint joinPoint){
 
         String className = joinPoint.getTarget().getClass().getName();
 
@@ -39,12 +39,17 @@ public class HttpLogger {
 
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
-
-
         Class[] paramTypeArray = methodSignature.getParameterTypes();
-        logger.info("\n调用方法为{}\n请求参数为:{}",className+"."+methodName,args);
-        Object result = joinPoint.proceed(args);
-        logger.info("\n调用方法为:{}\n请求参数为:{}\n响应结果为:{}",className+"."+methodName,args,result);
+
+        Object result=null;
+        try {
+            result = joinPoint.proceed(args);
+        } catch (Throwable e){
+            e.printStackTrace();
+        }
+        finally {
+            logger.info("\n调用方法为:{}\n请求参数为:{}\n响应结果为:{}",className+"."+methodName,args,result);
+        }
         return result;
 
     }
