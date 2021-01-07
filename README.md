@@ -36,6 +36,10 @@ spring.data.redis.repositories.enabled=false
 spring.servlet.multipart.max-file-size=10MB
 spring.servlet.multipart.max-request-size=10MB
 
+web.server.protocol=
+web.server.host=
+web.server.port=
+
 aliyun.oss.endpoint=
 aliyun.oss.accessKeyId=
 aliyun.oss.accessKeySecret=

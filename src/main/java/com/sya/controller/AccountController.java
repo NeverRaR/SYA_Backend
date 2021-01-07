@@ -45,7 +45,7 @@ public class AccountController {
             return null;
         }
         ResponseCookie responseCookie = ResponseCookie.from("sessionId", sessionId)
-                .maxAge(3* 60 * 60)
+                .maxAge(3* 24* 60 * 60)
                 .httpOnly(true)
                 .path("/")
                 .build();
