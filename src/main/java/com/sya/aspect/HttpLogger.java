@@ -42,9 +42,9 @@ public class HttpLogger {
 
 
         Class[] paramTypeArray = methodSignature.getParameterTypes();
-        logger.info("\n于{}接收到请求.\n调用方法为{}\n请求参数为:{}",new Date(),className+"."+methodName,args);
+        logger.info("\n调用方法为{}\n请求参数为:{}",className+"."+methodName,args);
         Object result = joinPoint.proceed(args);
-        logger.info("\n于{}返回结果:\n调用方法为:{}\n请求参数为:{}\n响应结果为:{}",new Date(),className+"."+methodName,args,result);
+        logger.info("\n调用方法为:{}\n请求参数为:{}\n响应结果为:{}",className+"."+methodName,args,result);
         return result;
 
     }
