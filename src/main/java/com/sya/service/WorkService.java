@@ -118,6 +118,17 @@ public class WorkService {
         return (allWork-1)/pageSize+1;
     }
 
+    public Integer deleteWork(Work work){
+        try {
+            workDAO.delete(work);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return  -1;
+        }
+        return 1;
+    }
+
     public Integer getHistoryWorkByPage(Integer pageNum,Integer pageSize,User teacher,List<Work> workList){
         Integer totalWork=0;
         totalWork=workDAO.findHistoryNum(teacher.getId());
@@ -147,6 +158,8 @@ public class WorkService {
         }
         return 1+(totalWork-1)/pageSize;
     }
+
+
 
     public Integer findAllWorkByPage(Integer pageNum,Integer pageSize,List<Work> workList,String query) {
 

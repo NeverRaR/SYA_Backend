@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -37,14 +38,14 @@ public class AccountController {
 
     @PostMapping(path = "/Login")
     public @ResponseBody
-    AccountStatus login(@RequestBody LoginRequest body, HttpServletResponse response){
+    AccountStatus login(@RequestBody LoginRequest body, HttpServletResponse response, HttpServletRequest request){
         String sessionId=authenticationService.createSessionId(body.getUsername(),body.getPassword());
 
-
+        System.out.println("LoginRequestHeader:"+ request.getHeaderNames());
         ResponseCookie responseCookie = ResponseCookie.from("sessionId", sessionId)
                 .maxAge(3* 60 * 60)
                 .sameSite("None")
-                .secure(false)
+                .httpOnly(true)
                 .path("/")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());

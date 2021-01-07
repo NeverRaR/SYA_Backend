@@ -66,6 +66,9 @@ public class Work {
     @OneToMany(mappedBy = "work",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private Set<Apply> applies;
 
+    @OneToMany(mappedBy = "work",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private Set<LeaveInformation> leaveInformationSet;
+
     public Integer getId() {
         return id;
     }

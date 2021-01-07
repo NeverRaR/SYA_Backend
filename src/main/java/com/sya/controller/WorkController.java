@@ -181,6 +181,24 @@ public class WorkController {
         return takesService.deleteResign(student.getId(), body.getWorkId());
     }
 
+    @PostMapping(path = "/DeleteWork")
+    public @ResponseBody
+    Object DeleteWork(@RequestBody WorkIdRequest body,@CookieValue(value = "sessionId",
+            defaultValue = "noSession") String sessionId){
+        User teacher=authenticationService.getUser(sessionId);
+        if(teacher.getRole().equals(1)) {
+            return  new Message("You are a student!");
+        }
+        User owner=workService.getWorkOwner(body.getWorkId());
+        if(owner ==null){
+            return new ErrorView(-1,"Work isn't exist!");
+        }
+        if(!owner.getId().equals(teacher.getId())){
+            return new Message("You are not the owner!");
+        }
+        return workService.deleteWork(workService.getWorkById(body.getWorkId()));
+    }
+
     @PostMapping(path = "/ChangeWorkInfo")
     public @ResponseBody
     Object ChangeWorkInfo(@RequestBody UpdateWorkRequest body, @CookieValue(value = "sessionId",
