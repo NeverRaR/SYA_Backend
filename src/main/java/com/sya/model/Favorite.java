@@ -15,7 +15,7 @@ public class Favorite {
     private Integer id;
 
     @Column(name ="favorite_name")
-    private String name;
+    private String name="";
 
     @Formula("(select count(*) from favorite_has_work a where a.favorite_id = favorite_id)")
     @Column(name ="work_num")

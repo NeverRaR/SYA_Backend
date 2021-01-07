@@ -40,8 +40,10 @@ public class AccountController {
     public @ResponseBody
     AccountStatus login(@RequestBody LoginRequest body, HttpServletResponse response, HttpServletRequest request){
         String sessionId=authenticationService.createSessionId(body.getUsername(),body.getPassword());
-
-        System.out.println("LoginRequestHeader:"+ request.getHeaderNames());
+        if(sessionId==null){
+            response.setStatus(401);
+            return null;
+        }
         ResponseCookie responseCookie = ResponseCookie.from("sessionId", sessionId)
                 .maxAge(3* 60 * 60)
                 .httpOnly(true)

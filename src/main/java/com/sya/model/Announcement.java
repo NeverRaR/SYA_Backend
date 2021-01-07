@@ -16,9 +16,9 @@ public class Announcement {
     @JoinColumn(name="user_id")
     private User user;
 
-    private String title;
+    private String title="";
 
-    private String content;
+    private String content="";
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="send_time")

@@ -20,9 +20,9 @@ public class LeaveInformation {
     @JoinColumn(name="student_id")
     private User student;
 
-    private String content;
+    private String content="";
 
-    private String proof;
+    private String proof="";
 
     private Integer status;
 
