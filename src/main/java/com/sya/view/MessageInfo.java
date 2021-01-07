@@ -1,5 +1,6 @@
 package com.sya.view;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sya.model.MessageLibrary;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class MessageInfo {
     @JsonProperty("content")
     private String content;
 
+    @JsonFormat(timezone="GMT+8")
     @JsonProperty("message_time")
     private Date messageTime;
 

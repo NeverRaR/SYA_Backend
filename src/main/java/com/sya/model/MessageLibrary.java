@@ -18,6 +18,7 @@ public class MessageLibrary {
 
     private String content;
 
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="message_time")
     private Date time;
