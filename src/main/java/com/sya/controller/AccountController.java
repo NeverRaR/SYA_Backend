@@ -44,7 +44,6 @@ public class AccountController {
         System.out.println("LoginRequestHeader:"+ request.getHeaderNames());
         ResponseCookie responseCookie = ResponseCookie.from("sessionId", sessionId)
                 .maxAge(3* 60 * 60)
-                .sameSite("None")
                 .httpOnly(true)
                 .path("/")
                 .build();
